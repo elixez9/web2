@@ -1,5 +1,15 @@
-
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+    <title></title>
+</head>
 <style>
+ .header{
+     background-image: url("/static/image/home/book.jpg");
+     padding: 14%;
+     text-align:right;
+     font-family: 'Aclonica';font-size: 22px;
+}
+
  .topnav {
   background-color: #333;
   overflow: hidden;
@@ -23,7 +33,7 @@
 
 /* Add a color to the active/current link */
 .topnav a.active {
-  background-color: #04AA6D;
+  background-color: #f3a3fa;
   color: white;
 }
 
@@ -31,8 +41,13 @@
 
 
 <header>
+    <div class="header">
+  <h1>Book suggestion</h1>
+  <p>Suggest and introduce the books you have read...</p>
+</div>
    <div class="topnav">
   <a class="active" href="http://127.0.0.1:8000/">Home</a>
+       <a href="/game/">Game</a>
   {% if request.user.is_authenticated %}
   <a href="/logout/">Logout</a>
        <a href="/profile/">Profile</a>

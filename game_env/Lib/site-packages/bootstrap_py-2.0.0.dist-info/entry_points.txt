@@ -1,0 +1,2 @@
+[console_scripts]
+bootstrap-py = bootstrap_py.commands:main

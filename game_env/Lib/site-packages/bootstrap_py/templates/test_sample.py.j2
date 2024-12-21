@@ -1,0 +1,16 @@
+import unittest
+from {{ module_name }} import sample
+
+
+class SampleTests(unittest.TestCase):
+
+    def test_hello(self):
+        self.assertEqual(sample.hello('Alice'), 'Hello, Alice.')
+
+    def test_bmi(self):
+        self.assertTrue(18.5 <= sample.bmi(1.68, 67.0) < 25)
+
+    def test_bmi_zero_devide(self):
+        with self.assertRaises(ZeroDivisionError) as exc:
+            sample.bmi(0, 67.0)
+            self.assertIsNotNone(exc.exception.__str__())

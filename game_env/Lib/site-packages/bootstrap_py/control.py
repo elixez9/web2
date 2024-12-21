@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+"""bootstrap_py.control."""
+import os
+import sys
+from . import package, pypi
+from .classifiers import Classifiers
+from .vcs import VCS
+from .exceptions import Conflict
+
+
+def _pp(dict_data):
+    """Pretty print."""
+    for key, val in dict_data.items():
+        # pylint: disable=superfluous-parens
+        print('{0:<11}: {1}'.format(key, val))
+
+
+def retreive_metadata():
+    """Retrieve metadata.
+
+    :rtype: bootstrap_py.classifiers.Classifiers
+    :return: Classifiers()
+    """
+    return Classifiers()
+
+
+def print_licences(params, metadata):
+    """Print licenses.
+
+    :param argparse.Namespace params: parameter
+    :param bootstrap_py.classifier.Classifiers metadata: package metadata
+    """
+    if hasattr(params, 'licenses'):
+        if params.licenses:
+            _pp(metadata.licenses_desc())
+        sys.exit(0)
+
+
+def check_repository_existence(params):
+    """Check repository existence.
+
+    :param argparse.Namespace params: parameters
+    """
+    repodir = os.path.join(params.outdir, params.name)
+    if os.path.isdir(repodir):
+        raise Conflict(
+            'Package repository "{0}" has already exists.'.format(repodir))
+
+
+def check_package_existence(params):
+    """Check package existence.
+
+    :param argparse.Namespace params: parameters
+    """
+    if not params.no_check:
+        pypi.package_existent(params.name)
+
+
+def generate_package(params):
+    """Generate package repository.
+
+    :param argparse.Namespace params: parameters
+    """
+    pkg_data = package.PackageData(params)
+    pkg_tree = package.PackageTree(pkg_data)
+    pkg_tree.generate()
+    pkg_tree.move()
+    VCS(os.path.join(pkg_tree.outdir, pkg_tree.name), pkg_tree.pkg_data)
