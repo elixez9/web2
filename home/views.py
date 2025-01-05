@@ -36,22 +36,26 @@ def game(request):
 class PostUpdateView(LoginRequiredMixin, View):
     form_class = UpdateForm
 
+    def setup(self, request, *args, **kwargs):     #وصل شدن به دیتابیس
+        self.post_instance = Post.objects.get(pk=kwargs['post_id']) #گرفتن اطلاعات
+        super().setup(self, request, *args, **kwargs)
+
     def dispatch(self, request, *args, **kwargs):
-        post = Post.objects.get(pk=kwargs['post_id'])
+        post = self.post_instance
         if not post.user.id == request.user.id:
             return redirect('home:home')
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, post_id):
-        post = Post.objects.get(pk=post_id)
+        post = self.post_instance   #وصل شدن به دیتابیس  در همه متد ها استفاده شده
         form = self.form_class(instance=post)
         return render(request, 'home/update.html', {'form': form})
 
-    def post(self, request, post_id):    #اپدیت کردن پست و سیو ان
-        post = Post.objects.get(pk=post_id)
+    def post(self, request, post_id):  #اپدیت کردن پست و سیو ان
+        post = self.post_instance
         form = self.form_class(request.POST, instance=post)
         if form.is_valid():
             new_post = form.save(commit=False)  #نگه داشتن سیو های قبلی و اضافه کردن مقادیر جدید
-            new_post.slug = slugify(form.cleaned_data['body'][:30]) #عوض کردن اسلاگ نسبت به اپدیت
-            new_post.save()   #سیو دوباره
+            new_post.slug = slugify(form.cleaned_data['body'][:30])  #عوض کردن اسلاگ نسبت به اپدیت
+            new_post.save()  #سیو دوباره
             return redirect('home:post_d', post.id, post.slug)
