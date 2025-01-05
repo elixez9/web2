@@ -13,13 +13,19 @@
         padding: 16px;
         margin: 16px 0;
     }
-    .btn-danger{
+    .btn-danger {
+        border: none; /* Remove borders */
+        color: white; /* Add a text color */
+        padding: 14px 28px; /* Add some padding */
+        cursor: pointer; /* Add a pointer cursor on mouse-over */
+        background-color: #f44336;
+    }
+  .btn-UP{
          border: none; /* Remove borders */
-  color: white; /* Add a text color */
-  padding: 14px 28px; /* Add some padding */
-  cursor: pointer; /* Add a pointer cursor on mouse-over */
-   background-color: #f44336;
-
+    color: white; /* Add a text color */
+    padding: 14px 28px; /* Add some padding */
+    cursor: pointer; /* Add a pointer cursor on mouse-over */
+    background-color: #1c89fd;
 
     }
 </style>
@@ -30,6 +36,7 @@
         <p> {{ post.updated|date:"Y-M"  }}</p>
          {% if request.user.id == post.user.id %}
          <a href="{% url 'home:post_delete' post.id  %}" class="btn-danger">Delete</a>
+         <a href="{% url 'home:post_update' post.id  %}" class="btn-UP">Update</a>
          {% endif %}
     </div>
 </body>

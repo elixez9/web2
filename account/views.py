@@ -28,7 +28,7 @@ class RegisterView(View):
             email = form.cleaned_data.get('email')
             User.objects.create_user(username=username, password=password, email=email)
             messages.success(request, 'Account was created for ' + username)
-            return redirect('home')
+            return redirect('home:home')
         return render(request, 'account/register.html', {'form': form})
 
 
@@ -37,8 +37,8 @@ class UserLoginView(View):
 
     def dispatch(self, request, *args, **kwargs):  #If the user is logged in, do not show the registration form
         if request.user.is_authenticated:
-            return redirect('home')
-        return super().dispatch(request, *args, **kwargs)  #Otherwise, show the registry form
+            return redirect('home:home')
+        return super().dispatch(request, *args, **kwargs)  ##Otherwise, show the registry form
 
     def get(self, request):
         form = self.form_class
@@ -52,8 +52,7 @@ class UserLoginView(View):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                messages.success(request, 'You are now logged in')
-                return redirect('home')
+                return redirect('home:home')
             messages.error(request, 'Invalid username or password')
         return render(request, 'account/login.html', {'form': form})
 
@@ -62,7 +61,7 @@ class UserLogoutView(LoginRequiredMixin, View):    #LoginRequiredMixin class Log
     def get(self, request):
         logout(request)
         messages.success(request, 'You are now logged out')
-        return redirect('home')
+        return redirect('home:home')
 
 
 class UserProfileView(LoginRequiredMixin, View):

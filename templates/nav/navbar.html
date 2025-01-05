@@ -49,11 +49,11 @@
   <a class="active" href="http://127.0.0.1:8000/">Home</a>
        <a href="/game/">Game</a>
   {% if request.user.is_authenticated %}
-  <a href="/logout/">Logout</a>
-       <a href="/profile/">Profile</a>
+  <a href="/account/logout/">Logout</a>
+       <a href="/account/profile/">Profile</a>
   {% else %}
-   <a href="/register/">Register</a>
-  <a href="/login/">login</a>
+   <a href="/account/register/">Register</a>
+  <a href="/account/login/">login</a>
   {% endif %}
 </div>
 

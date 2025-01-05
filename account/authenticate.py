@@ -13,6 +13,6 @@ class EmailBackend:
 
     def get_user(self, user_id):
         try:
-            return User.objects.get(id=user_id)
+            return
         except User.DoesNotExist:
             return None
