@@ -3,7 +3,7 @@ from django.views import View
 from pyexpat.errors import messages
 from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UpdateForm
+from .forms import CreateUpdateForm
 from django.utils.text import slugify
 
 
@@ -34,10 +34,10 @@ def game(request):
 
 
 class PostUpdateView(LoginRequiredMixin, View):
-    form_class = UpdateForm
+    form_class = CreateUpdateForm
 
-    def setup(self, request, *args, **kwargs):     #وصل شدن به دیتابیس
-        self.post_instance = Post.objects.get(pk=kwargs['post_id']) #گرفتن اطلاعات
+    def setup(self, request, *args, **kwargs):  #وصل شدن به دیتابیس
+        self.post_instance = Post.objects.get(pk=kwargs['post_id'])  #گرفتن اطلاعات
         super().setup(self, request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):
@@ -47,7 +47,7 @@ class PostUpdateView(LoginRequiredMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request, post_id):
-        post = self.post_instance   #وصل شدن به دیتابیس  در همه متد ها استفاده شده
+        post = self.post_instance  #وصل شدن به دیتابیس  در همه متد ها استفاده شده
         form = self.form_class(instance=post)
         return render(request, 'home/update.html', {'form': form})
 
@@ -59,3 +59,20 @@ class PostUpdateView(LoginRequiredMixin, View):
             new_post.slug = slugify(form.cleaned_data['body'][:30])  #عوض کردن اسلاگ نسبت به اپدیت
             new_post.save()  #سیو دوباره
             return redirect('home:post_d', post.id, post.slug)
+
+
+class PostCreateView(LoginRequiredMixin, View):
+    form_class = CreateUpdateForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, 'home/create.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            new_post = form.save(commit=False)
+            new_post.slug = slugify(form.cleaned_data['body'][:30])
+            new_post.user = request.user
+            new_post.save()
+
