@@ -16,33 +16,102 @@
 </header>
 <style>
     .card{
-         border: 2px solid #ccc;
-  background-color: #eee;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-    }
+         border: 2px solid #f9fcff;
+        background-color: #eee;
+         border-radius: 5px;
+         padding: 10px;
+          margin: 10px 0;
+        width: 80%;
+        position: relative;
+        left: 150px;
+}
     .card-body{
-                 border: 2px solid #9ecaff;
-  background-color: #9ecaff;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-    }
+      border: 2px solid #9ecaff;
+     background-color: #9ecaff;
+      border-radius: 5px;
+     padding: 10px;
+     margin: 10px 0;
+}
 
+body{
+    background-image: url("static/image/home/w.jpg");
+    background-size: cover;
 
+}
+.drawing-box {
+    width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #e6adec;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.drawing-box h2 {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.sample-images {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+
+.sample-images img {
+    width: 200px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #e13db4;
+    transition: transform 0.3s, border-color 0.3s;
+}
+
+.sample-images img:hover {
+    transform: scale(1.1);
+    border-color: #e604fa;
+}
+
+.draw-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #e215f4;
+    color: white;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.draw-btn:hover {
+    background-color: #57a7fd;
+}
 </style>
 <body>
   <div class="card">
-      <h1 style="text-align: center; background-color: #cccccc; font-family: 'Aclonica';font-size: 34px;">Your comments</h1>
+      <h1 style="text-align: center; background-color: #b9caf1; font-family: 'Aclonica';font-size: 34px;">Your comments</h1>
 
      {% for post in posts %}
            <a href="{{ post.get_absolute_url }}" class="card-body">{{ post.body|truncatewords:3}}</a>
+           <h3><a href="{%  url 'account:profile' post.user.id  %}"> {{ post.user.username }} </a></h3>
           <h1> <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></h1>
      {% endfor %}
 
   </div>
-
+  <div class="drawing-box">
+    <h2>Explore & Draw!</h2>
+    <div class="sample-images">
+        <img src="/static/image/draw/my_artwork%20(1).png " alt="Sample 1">
+        <img src="/static/image/draw/my_artwork%20(2).png " alt="Sample 2">
+        <img src="/static/image/draw/my_artwork%20(3).png " alt="Sample 3">
+    </div>
+    <a href="/pint/" class="draw-btn">Start Drawing</a>
+    <h3 style="position: relative;top: 10px">Draw a picture as a keepsake.</h3>
+  </div>
 </body>
 </html>
 <script>

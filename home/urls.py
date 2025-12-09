@@ -9,4 +9,5 @@ urlpatterns = [
     path('post/update/<int:post_id>/', views.PostUpdateView.as_view(), name='post_update'),
     path('game/',views.game, name='game'),
     path('post/create/', views.PostCreateView.as_view(), name='post_create'),
+    path('pint/', views.pint, name='pint'),
 ]

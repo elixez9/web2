@@ -1,65 +1,56 @@
+{% load static %}
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>My Site</title>
     <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
-    <title></title>
+    <style>
+
+        .topnav {
+            background-color: #eac7ec;
+            overflow: hidden;
+
+        }
+
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+        .topnav a:hover {
+            background-color: #f3a3fa;
+            color: black;
+        }
+
+        .topnav a.active {
+            background-color: #cf14df;
+            color: white;
+        }
+    </style>
 </head>
-<style>
- .header{
-     background-image: url("/static/image/home/book.jpg");
-     padding: 14%;
-     text-align:right;
-     font-family: 'Aclonica';font-size: 22px;
-}
-
- .topnav {
-  background-color: #333;
-  overflow: hidden;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
-}
-
-/* Add a color to the active/current link */
-.topnav a.active {
-  background-color: #f3a3fa;
-  color: white;
-}
-
-</style>
-
+<body>
 
 <header>
-    <div class="header">
-  <h1>Book suggestion</h1>
-  <p>Suggest and introduce the books you have read...</p>
-</div>
-   <div class="topnav">
-  <a class="active" href="http://127.0.0.1:8000/">Home</a>
-       <a href="/game/">Game</a>
-  {% if request.user.is_authenticated %}
-  <a href="/account/logout/">Logout</a>
-       <a href="/account/profile/">Profile</a>
-  {% else %}
-   <a href="/account/register/">Register</a>
-  <a href="/account/login/">login</a>
-  {% endif %}
-</div>
+    <!-- Navbar -->
+    <div class="topnav">
 
+        <a class="active" href=#>Home</a>
+        <a href="/game/">Game</a>
 
+        {% if request.user.is_authenticated %}
+            <a href="/account/logout/">Logout</a>
+            <a href="{{ request.user.get_absolute_url }}">Profile</a>
+        {% else %}
+            <a href="/account/register/">Register</a>
+            <a href="/account/login/">Login</a>
+        {% endif %}
+         <a href="/book-suggestion/" style="font-family: 'Poppins', sans-serif; font-weight:600; background-color:#cf14df; color:white;  text-decoration:none;position: relative;left: 68%">Book Suggestion</a>
+    </div>
 </header>
 
-
-
-
+</body>
+</html>

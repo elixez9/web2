@@ -76,3 +76,6 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.user = request.user
             new_post.save()
 
+
+def pint(request):
+    return render(request, 'home/pint.html')

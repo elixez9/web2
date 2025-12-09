@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Draw Your Art</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            background-color: #333;
+            color: white;
+            margin: 0;
+            padding: 20px 0;
+        }
+
+        #canvasContainer {
+            position: relative;
+            display: inline-block;
+            margin: 20px auto;
+            border: 2px solid #333;
+            background-color: white;
+        }
+
+        canvas {
+            display: block;
+            cursor: crosshair;
+        }
+
+        .controls {
+            margin: 10px 0;
+        }
+
+        button, input[type="color"], input[type="range"] {
+            margin: 5px;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #ff6f61;
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Draw & Save Your Artwork</h1>
+
+<div id="canvasContainer">
+    <canvas id="drawCanvas" width="900" height="500"></canvas>
+</div>
+
+<div class="controls">
+    <label>Color: <input type="color" id="colorPicker" value="#000000"></label>
+    <label>Brush size: <input type="range" id="brushSize" min="1" max="50" value="5"></label>
+    <button id="undoBtn">Undo</button>
+    <button id="redoBtn">Redo</button>
+    <button id="clearBtn">Clear</button>
+    <button id="saveBtn">Save as PNG</button>
+</div>
+
+<script>
+    const canvas = document.getElementById('drawCanvas');
+    const ctx = canvas.getContext('2d');
+    let drawing = false;
+    let brushColor = document.getElementById('colorPicker').value;
+    let brushSize = document.getElementById('brushSize').value;
+
+    let history = [];  // برای undo
+    let redoStack = [];
+
+    function saveHistory() {
+        if (history.length > 50) history.shift(); // محدود کردن حافظه
+        history.push(canvas.toDataURL());
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        drawing = true;
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    });
+
+    canvas.addEventListener('mousemove', draw);
+    canvas.addEventListener('mouseup', () => {
+        drawing = false;
+        saveHistory();
+        ctx.beginPath();
+    });
+    canvas.addEventListener('mouseleave', () => {
+        if (drawing) saveHistory();
+        drawing = false;
+        ctx.beginPath();
+    });
+
+    function draw(e) {
+        if (!drawing) return;
+        ctx.lineWidth = brushSize;
+        ctx.lineCap = 'round';
+        ctx.strokeStyle = brushColor;
+
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(e.offsetX, e.offsetY);
+    }
+
+    document.getElementById('colorPicker').addEventListener('input', (e) => brushColor = e.target.value);
+    document.getElementById('brushSize').addEventListener('input', (e) => brushSize = e.target.value);
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        saveHistory();
+    });
+
+    document.getElementById('undoBtn').addEventListener('click', () => {
+        if (history.length === 0) return;
+        redoStack.push(canvas.toDataURL());
+        const last = history.pop();
+        const img = new Image();
+        img.src = last;
+        img.onload = () => ctx.drawImage(img, 0, 0);
+    });
+
+    document.getElementById('redoBtn').addEventListener('click', () => {
+        if (redoStack.length === 0) return;
+        const last = redoStack.pop();
+        const img = new Image();
+        img.src = last;
+        img.onload = () => ctx.drawImage(img, 0, 0);
+        history.push(last);
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'my_artwork.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+
+    // ذخیره وضعیت اولیه
+    saveHistory();
+</script>
+
+</body>
+</html>

@@ -28,16 +28,18 @@
 </header>
 <body>
 
- <h3 class="text_center" style="background-color: antiquewhite;text-align: right">  {{ user.username }} </h3>
+ <h3 class="text_center" style="background-color: antiquewhite;text-align: right">
+     {{ user.username }} </h3>
  <h1 style="text-align: center; background-color: #cccccc">MY POST</h1>
-  <div class="card">
-
-
-      {% for post in posts %}
-        <a href="{{ post.get_absolute_url }}" class="card-body">{{ post.body|truncatewords:3 }}</a>
-         <P>{{ user.name }}</P>
-      {% endfor %}
-  </div>
-
+ <div class="card">
+    {% for post in posts %}
+        <a href="{{ post.get_absolute_url }}" class="card-body">
+            {{ post.body|truncatewords:3 }}
+        </a>
+        <p>Author: {{ post.user.username }}</p>
+    {% empty %}
+        <p>No posts yet.</p>
+    {% endfor %}
+</div>
 </body>
 </html>
