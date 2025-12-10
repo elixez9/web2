@@ -6,15 +6,15 @@
 
 <style>
    body {
-        background-image: url("/static/image/home/w.jpg");
-        background-size: cover;
-        background-position: center;
-        background-attachment: fixed;
-        margin: 0;
-        font-family: Arial, sans-serif;
+       background-image: url("/static/image/home/w.jpg");
+       background-size: cover;
+       background-position: center;
+       background-attachment: fixed;
+       margin: 0;
+       font-family: Arial, sans-serif;
 
        backdrop-filter: blur(4px);
-
+   }
 
     .profile-header {
         background-color: #d7ecff;
@@ -25,13 +25,13 @@
         margin: 20px;
         box-shadow: 0 0 10px rgba(0,0,0,0.15);
         text-align: right;
-    }
+}
 
     .profile-header h3 {
         margin: 0;
         font-weight: bold;
         color: #004c75;
-    }
+}
 
     .draw-btn {
         display: inline-block;
@@ -47,7 +47,7 @@
 
     .draw-btn:hover {
         background-color: #006fd1;
-    }
+}
 
 
     /* باکس مرکزی پست‌ها */
@@ -59,7 +59,7 @@
         padding: 25px;
         border-radius: 12px;
         box-shadow: 0 0 12px rgba(0,0,0,0.15);
-    }
+}
 
     .post-item {
         background-color: #f0f7ff;
@@ -70,17 +70,32 @@
         text-decoration: none;
         display: block;
         color: black;
-    }
+}
 
     .post-item:hover {
         background-color: #dceeff;
-    }
+}
 
     .post-author {
         font-size: 14px;
         color: #063970;
         margin-bottom: 10px;
-    }
+}
+.post-item {
+    background-color: #f0f7ff;
+    padding: 12px;
+    border-left: 4px solid #90caf9;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    text-decoration: none;
+    display: block;
+    color: black;
+
+
+    max-height: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 </style>
 
 
@@ -97,9 +112,7 @@
     <h1 style="text-align:center; color:#0d3a5c;">MY POSTS</h1>
 
     {% for post in posts %}
-        <a href="{{ post.get_absolute_url }}" class="post-item">
-            {{ post.body|truncatewords:3 }}
-        </a>
+        <a href="{{ post.get_absolute_url }}" class="post-item">{{ post.body|truncatewords:3 }}</a>
         <p class="post-author">Author: {{ post.user.username }}</p>
     {% empty %}
         <p style="text-align:center;">No posts yet.</p>

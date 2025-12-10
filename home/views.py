@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from pyexpat.errors import messages
 from .models import Post
@@ -25,13 +25,13 @@ class HomeView(View):
 
 class PostDetailView(View):
     def get(self, request, post_id, post_slug):
-        post = Post.objects.get(pk=post_id, slug=post_slug)
+        post = get_object_or_404(Post, pk=post_id, slug=post_slug)
         return render(request, 'home/post.html', {'post': post})
 
 
 class PostDeleteView(LoginRequiredMixin, View):
     def get(self, request, post_id):
-        post = Post.objects.get(pk=post_id)
+        post = get_object_or_404(Post,pk=post_id)
         if post.user.id == request.user.id:
             post.delete()
         else:
@@ -47,7 +47,7 @@ class PostUpdateView(LoginRequiredMixin, View):
     form_class = CreateUpdateForm
 
     def setup(self, request, *args, **kwargs):  #وصل شدن به دیتابیس
-        self.post_instance = Post.objects.get(pk=kwargs['post_id'])  #گرفتن اطلاعات
+        self.post_instance = get_object_or_404(Post, pk=kwargs['post_id'])  #گرفتن اطلاعات
         super().setup(self, request, *args, **kwargs)
 
     def dispatch(self, request, *args, **kwargs):

@@ -108,6 +108,8 @@
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     backdrop-filter: blur(5px);
+    border: none; /
+
 }
 
 /* عنوان */
@@ -202,6 +204,107 @@
     color: white;
     font-weight: bold;
 }
+.music-box {
+    max-width: 1000px;
+    margin: 50px auto;
+    padding: 25px;
+    background: rgba(173, 216, 230, 0.85); /* آبی روشن و کمی شفاف */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+.music-box h2 {
+    font-size: 28px;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+.videos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.video-item {
+    background: rgba(224, 238, 255, 0.9); /* آبی خیلی روشن */
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.video-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.video-item p {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #003366;
+}
+
+
+
+
+
+.personality-box {
+    width: 100%;
+    min-height: 100vh;
+    padding: 50px 25px;
+    background: rgba(249, 190, 255, 0.73); /* صورتی روشن */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    box-sizing: border-box;
+}
+
+.personality-box h2 {
+    font-size: 32px;
+    color: #800080; /* بنفش تیره برای کنتراست */
+    margin-bottom: 30px;
+}
+
+.test-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+}
+
+.test-item {
+    background: rgb(222, 156, 228); /* صورتی خیلی روشن */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.test-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+}
+
+.test-item p {
+    font-weight: bold;
+    color: #800080;
+    margin-bottom: 10px;
+}
+
+.test-item a {
+    color: #C71585; /* ارغوانی روشن */
+    text-decoration: underline;
+    font-size: 16px;
+}
 </style>
 <body>
   <div class="card comments-card" style="position: relative;left: -1%;">
@@ -252,6 +355,62 @@
     <a href="/pint/" class="draw-btn">Start Drawing</a>
     <h3 class="comments-title" style="color: #cf14df;font-size:large;position: relative;top: 10px">Draw a picture as a keepsake.</h3>
   </div>
+  <div class="music-box">
+    <h2  class="comments-title">Top Music Videos</h2>
+    <div class="videos">
+        <div class="video-item">
+            <iframe width="300" height="170" src="https://www.youtube.com/embed/kJQP7kiw5Fk" title="Luis Fonsi - Despacito" frameborder="0" allowfullscreen></iframe>
+            <p>Luis Fonsi - Despacito</p>
+        </div>
+        <div class="video-item">
+            <iframe width="300" height="170" src="https://www.youtube.com/embed/3JZ4pnNtyxQ" title="Ed Sheeran - Shape of You" frameborder="0" allowfullscreen></iframe>
+            <p>Ed Sheeran - Shape of You</p>
+        </div>
+        <div class="video-item">
+            <iframe width="300" height="170" src="https://www.youtube.com/embed/2Vv-BfVoq4g" title="Ed Sheeran - Perfect" frameborder="0" allowfullscreen></iframe>
+            <p>Ed Sheeran - Perfect</p>
+        </div>
+        <div class="video-item">
+            <iframe width="300" height="170" src="https://www.youtube.com/embed/fRh_vgS2dFE" title="Justin Bieber - Sorry" frameborder="0" allowfullscreen></iframe>
+            <p>Justin Bieber - Sorry</p>
+        </div>
+        <div class="video-item">
+            <iframe width="300" height="170" src="https://www.youtube.com/embed/CevxZvSJLk8" title="Katy Perry - Roar" frameborder="0" allowfullscreen></iframe>
+            <p>Katy Perry - Roar</p>
+        </div>
+    </div>
+  </div>
+
+
+   <div class="personality-box">
+    <h2  class="comments-title">Free Personality Tests</h2>
+      <div class="test-list">
+        <div class="test-item">
+            <p class="comments-title">MBTI Personality Test</p>
+            <a class="comments-title" href="https://www.16personalities.com/" target="_blank">Start Test</a>
+        </div>
+
+        <div class="test-item">
+            <p class="comments-title">DISC Personality Test</p>
+            <a class="comments-title" href="https://www.123test.com/disc-personality-test/" target="_blank">Start Test</a>
+        </div>
+
+        <div class="test-item">
+            <p class="comments-title">Emotional Intelligence Test</p>
+            <a   class="comments-title" href="https://www.psychologytoday.com/us/tests/personality/emotional-intelligence-test" target="_blank">Start Test</a>
+        </div>
+
+        <div class="test-item">
+            <p class="comments-title">Color Personality Test</p>
+            <a  class="comments-title" href="https://www.psychologyjunkie.com/color-personality-test/" target="_blank">Start Test</a>
+        </div>
+
+        <div class="test-item">
+            <p class="comments-title">Enneagram Personality Test</p>
+            <a class="comments-title"  href="https://www.enneagraminstitute.com/rheti" target="_blank">Start Test</a>
+        </div>
+      </div>
+    </div>
 </body>
 {% endblock %}
 <script>

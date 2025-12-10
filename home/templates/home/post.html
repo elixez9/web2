@@ -4,74 +4,96 @@
 
 {% block content %}
 <style>
-
-    .fieldBox {
-        border: 2px solid #ccc;
-        background-color: #eee;
-        border-radius: 5px;
-        padding: 16px;
-        margin: 16px 0;
-
+body {
+    background-image: url("/static/image/home/w.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
-    .btn-danger {
-        border: none; /* Remove borders */
-        color: white; /* Add a text color */
-        padding: 14px 28px; /* Add some padding */
-        cursor: pointer; /* Add a pointer cursor on mouse-over */
-        background-color: #f44336;
+
+.post-detail-box {
+    background: linear-gradient(135deg, rgba(209, 157, 255, 0.94), rgba(249, 190, 255, 0.81)); /* ارغوانی جذاب */
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 90%;
+    color: #fff;
+    text-align: center;
+    margin: 120px auto 50px auto; /* فاصله از بالا و مرکز افقی */
+    word-wrap: break-word; /* شکستن کلمات طولانی */
 }
-.submit-btn {
+
+.post-detail-box h1 {
+    margin-bottom: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+.post-detail-box p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #f2f2f2;
+}
+
+.post-detail-box .btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #6495ed;
-    color: white;
+    flex-wrap: wrap; /* برای ریسپانسیو بهتر */
+}
+
+.post-detail-box .update-btn {
+    background-color: #3498db;
     border: none;
+    padding: 12px 25px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: 600;
+    color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
-.submit-btn2 {
-    margin-top: 15px;
-    padding: 12px 25px;
-    background-color: #e32b2b;
-    color: white;
+.post-detail-box .update-btn:hover {
+    background-color: #1d6fa5;
+}
+
+.post-detail-box .delete-btn {
+    background-color: #e74c3c;
     border: none;
+    padding: 12px 25px;
     border-radius: 10px;
     font-size: 16px;
     font-weight: 600;
+    color: white;
     cursor: pointer;
     transition: background-color 0.3s;
+    text-decoration: none;
 }
 
-.submit-btn:hover {
-    background-color: #4169e1;
+.post-detail-box .delete-btn:hover {
+    background-color: #c0392b;
 }
-.submit-btn2:hover {
-    background-color: #910606;
-}
-
- body {
-     background-image: url("/static/image/home/w.jpg");
-     background-size: cover;
-     background-position: center;
-     background-attachment: fixed;
-     margin: 0;
-     font-family: Arial, sans-serif;
-     backdrop-filter: blur(4px);
- }
 </style>
-<body>
-     <div class="fieldBox">
-         <h1><a href="{%  url 'account:profile' post.user.id  %}"> {{ post.user.username }} </a></h1>
-       <P> {{ post.body }}</P>
-        <p> {{ post.updated|date:"Y-M"  }}</p>
-         {% if request.user.id == post.user.id %}
-         <a href="{% url 'home:post_delete' post.id  %}" class="submit-btn2">Delete</a>
-         <a href="{% url 'home:post_update' post.id  %}" class="submit-btn">Update</a>
-         {% endif %}
+
+<div class="post-detail-box">
+    <h1><a href="{% url 'account:profile' post.user.id %}" style="color:white; text-decoration:none;">{{ post.user.username }}</a></h1>
+    <p>{{ post.body }}</p>
+    <p style="font-size:14px; color:#f0f0f0;">{{ post.updated|date:"Y-M-d" }}</p>
+
+    {% if request.user.id == post.user.id %}
+    <div class="btn-group">
+        <a href="{% url 'home:post_update' post.id %}" class="update-btn">Update</a>
+        <a href="{% url 'home:post_delete' post.id %}" class="delete-btn">Delete</a>
     </div>
-</body>
+    {% endif %}
+</div>
 {% endblock %}

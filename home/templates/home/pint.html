@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+
+{% block title %}Draw{% endblock %}
+
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <title>Draw Your Art</title>
@@ -148,9 +152,9 @@
         link.click();
     });
 
-    // ذخیره وضعیت اولیه
+
     saveHistory();
 </script>
 
 </body>
-</html>
+{% endblock %}

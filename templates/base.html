@@ -1,32 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}My Site{% endblock %}</title>
     {% load static %}
 
     <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
     <style>
+        /* Top navbar */
         .topnav {
             background-color: #eac7ec;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
         }
+
         .topnav a {
-            float: left;
             color: #f2f2f2;
             text-align: center;
             padding: 14px 16px;
             text-decoration: none;
             font-size: 17px;
         }
+
         .topnav a:hover {
             background-color: #f3a3fa;
             color: black;
         }
+
         .topnav a.active {
             background-color: #cf14df;
             color: white;
+        }
+
+        /* Center search bar */
+        .topnav .search-bar {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+        }
+
+        .topnav .search-bar input {
+            width: 250px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            background-color: #dba3f2; /* Light purple */
+            color: #000;
+        }
+
+        .topnav .search-bar button {
+            border: none;
+            background-color: #cf14df; /* Darker purple */
+            color: white;
+            padding: 6px 10px;
+            margin-left: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* Book suggestion button */
+        .topnav .book-suggestion {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            background-color: #cf14df;
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .topnav .book-suggestion i {
+            margin-right: 5px;
+            color: #ffd6f0; /* Light pink book icon */
         }
     </style>
 </head>
@@ -36,18 +87,31 @@
     <!-- NAVBAR -->
     <header>
         <div class="topnav">
-            <a class="active" href="/">Home</a>
-            <a href="/game/">Game</a>
+            <!-- Left links -->
+            <div>
+                <a class="active" href="/">Home</a>
+                <a href="/game/">Game</a>
 
-            {% if request.user.is_authenticated %}
-                <a href="/account/logout/">Logout</a>
-                <a href="{% url 'account:profile' request.user.id %}">Profile</a>
-            {% else %}
-                <a href="/account/register/">Register</a>
-                <a href="/account/login/">Login</a>
-            {% endif %}
+                {% if request.user.is_authenticated %}
+                    <a href="/account/logout/">Logout</a>
+                    <a href="{% url 'account:profile' request.user.id %}">Profile</a>
+                {% else %}
+                    <a href="/account/register/">Register</a>
+                    <a href="/account/login/">Login</a>
+                {% endif %}
+            </div>
 
-            <a href="/book-suggestion/" style="font-family: 'Poppins', sans-serif; font-weight:600; background-color:#cf14df; color:white; text-decoration:none; position: relative; left: 68%">Book Suggestion</a>
+            <!-- Center search bar -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search posts...">
+                <button onclick="doSearch()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- Right link -->
+            <a href="/book-suggestion/" class="book-suggestion">
+                <i class="fas fa-book"></i>
+                Book Suggestion
+            </a>
         </div>
     </header>
 
@@ -56,5 +120,17 @@
         {% block content %}{% endblock %}
     </main>
 
+    <!-- JavaScript for client-side search -->
+    <script>
+        function doSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const posts = document.querySelectorAll('.post-item'); // کلاس پست‌ها
+
+            posts.forEach(post => {
+                const text = post.textContent.toLowerCase();
+                post.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+    </script>
+
 </body>
-</html>
