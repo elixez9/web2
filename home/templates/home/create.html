@@ -1,16 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends "base.html" %}
+
+{% block title %}CREATE POST{% endblock %}
+
+{% block content %}
+<style>
+     body {
+     background-image: url("/static/image/home/w.jpg");
+     background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
+     margin: 0;
+     font-family: Arial, sans-serif;
+     backdrop-filter: blur(4px);
+ }
+/* باکس فرم کریت پست */
+.post-form-box {
+    max-width: 500px;
+    margin: 60px auto; /* وسط صفحه */
+    padding: 30px 25px;
+    background: rgba(173, 216, 230, 0.85); /* آبی خنثی و نیمه شفاف */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px); /* کمی مات */
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+}
+
+/* عنوان فرم */
+.post-form-box h2 {
+    font-size: 28px;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+/* استایل فرم */
+.post-form-box form p {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.post-form-box input[type="text"],
+.post-form-box textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #b0c4de;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.post-form-box input[type="text"]:focus,
+.post-form-box textarea:focus {
+    border-color: #6495ed;
+    box-shadow: 0 0 5px rgba(100,149,237,0.5);
+}
+
+/* دکمه submit */
+.submit-btn {
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #6495ed;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+    background-color: #4169e1;
+}
+</style>
 <body>
-
-      <form action="" method="post" novalidate>
-       {% csrf_token %}
-        {{  form.as_p }}
-       <input type="submit" value="Create" style="background-color:lightblue ; position: relative;top: 1%;left: 500px; box-sizing: content-box;">
-   </form>
-
+    <div class="post-form-box">
+        <h2>Create a Post</h2>
+        <form action="" method="post" novalidate>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Create" class="submit-btn">
+        </form>
+    </div>
 </body>
-</html>tml>
+{% endblock %}

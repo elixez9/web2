@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My Site{% endblock %}</title>
+    {% load static %}
+
+    <link href='https://fonts.googleapis.com/css?family=Aclonica' rel='stylesheet'>
+
+    <style>
+        .topnav {
+            background-color: #eac7ec;
+            overflow: hidden;
+        }
+        .topnav a {
+            float: left;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .topnav a:hover {
+            background-color: #f3a3fa;
+            color: black;
+        }
+        .topnav a.active {
+            background-color: #cf14df;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <div class="topnav">
+            <a class="active" href="/">Home</a>
+            <a href="/game/">Game</a>
+
+            {% if request.user.is_authenticated %}
+                <a href="/account/logout/">Logout</a>
+                <a href="{% url 'account:profile' request.user.id %}">Profile</a>
+            {% else %}
+                <a href="/account/register/">Register</a>
+                <a href="/account/login/">Login</a>
+            {% endif %}
+
+            <a href="/book-suggestion/" style="font-family: 'Poppins', sans-serif; font-weight:600; background-color:#cf14df; color:white; text-decoration:none; position: relative; left: 68%">Book Suggestion</a>
+        </div>
+    </header>
+
+    <!-- PAGE CONTENT -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+</body>
+</html>

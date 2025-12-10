@@ -5,12 +5,22 @@ from .models import Post
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CreateUpdateForm
 from django.utils.text import slugify
+from django.core.paginator import Paginator
 
 
 class HomeView(View):
+    template_name = 'home/home.html'
+
     def get(self, request):
-        posts = Post.objects.all()
-        return render(request, 'home/home.html', {'posts': posts})
+        post_list = Post.objects.all().order_by('-created')  # آخرین پست‌ها اول
+        paginator = Paginator(post_list, 10)  # هر صفحه 10 پست
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+
+        context = {
+            'page_obj': page_obj,
+        }
+        return render(request, self.template_name, context)
 
 
 class PostDetailView(View):
@@ -75,6 +85,7 @@ class PostCreateView(LoginRequiredMixin, View):
             new_post.slug = slugify(form.cleaned_data['body'][:30])
             new_post.user = request.user
             new_post.save()
+            return redirect('home:post_d', post_id=new_post.id, post_slug= new_post.slug)
 
 
 def pint(request):

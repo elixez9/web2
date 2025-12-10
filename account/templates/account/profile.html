@@ -1,45 +1,109 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
 <style>
-.card{
-         border: 2px solid #ccc;
-  background-color: #eee;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-}
-.card-body{
-        border: 2px solid #f9beff;
-  background-color: #f9beff;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-}
+   body {
+        background-image: url("/static/image/home/w.jpg");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        margin: 0;
+        font-family: Arial, sans-serif;
+
+       backdrop-filter: blur(4px);
 
 
+    .profile-header {
+        background-color: #d7ecff;
+        border-radius: 10px;
+        padding: 15px 20px;
+        width: 300px;
+        float: right;
+        margin: 20px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+        text-align: right;
+    }
+
+    .profile-header h3 {
+        margin: 0;
+        font-weight: bold;
+        color: #004c75;
+    }
+
+    .draw-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 18px;
+        background-color: #008cff;
+        color: white;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+
+    .draw-btn:hover {
+        background-color: #006fd1;
+    }
+
+
+    /* باکس مرکزی پست‌ها */
+    .post-container {
+        max-width: 700px;
+        margin: 0 auto;
+        margin-top: 120px;
+        background-color: #e3f2fd; /* آبی خنثی */
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.15);
+    }
+
+    .post-item {
+        background-color: #f0f7ff;
+        padding: 12px;
+        border-left: 4px solid #90caf9;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        text-decoration: none;
+        display: block;
+        color: black;
+    }
+
+    .post-item:hover {
+        background-color: #dceeff;
+    }
+
+    .post-author {
+        font-size: 14px;
+        color: #063970;
+        margin-bottom: 10px;
+    }
 </style>
-<header>
 
-</header>
-<body>
 
- <h3 class="text_center" style="background-color: antiquewhite;text-align: right">
-     {{ user.username }} </h3>
- <h1 style="text-align: center; background-color: #cccccc">MY POST</h1>
- <div class="card">
+<div class="profile-header">
+    <h3>{{ user.username }}</h3>
+
+    {% if request.user.id == user.id %}
+        <a href="{% url 'home:post_create' %}" class="draw-btn">Create Post</a>
+    {% endif %}
+</div>
+
+
+<div class="post-container">
+    <h1 style="text-align:center; color:#0d3a5c;">MY POSTS</h1>
+
     {% for post in posts %}
-        <a href="{{ post.get_absolute_url }}" class="card-body">
+        <a href="{{ post.get_absolute_url }}" class="post-item">
             {{ post.body|truncatewords:3 }}
         </a>
-        <p>Author: {{ post.user.username }}</p>
+        <p class="post-author">Author: {{ post.user.username }}</p>
     {% empty %}
-        <p>No posts yet.</p>
+        <p style="text-align:center;">No posts yet.</p>
     {% endfor %}
 </div>
-</body>
-</html>
+
+{% endblock %}

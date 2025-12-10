@@ -1,5 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +16,7 @@
 
 </style>
 <header>
-    {% include 'nav/navbar.html' %}
+
 </header>
 <style>
     .card{
@@ -33,11 +37,16 @@
      margin: 10px 0;
 }
 
-body{
-    background-image: url("static/image/home/w.jpg");
-    background-size: cover;
+ body {
+     background-image: url("/static/image/home/w.jpg");
+     background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
+     margin: 0;
+     font-family: Arial, sans-serif;
+     backdrop-filter:blur(1px);
+ }
 
-}
 .drawing-box {
     width: 800px;
     margin: 40px auto;
@@ -51,7 +60,7 @@ body{
 
 .drawing-box h2 {
     margin-bottom: 15px;
-    color: #333;
+    color: #f9fcff;
 }
 
 .sample-images {
@@ -90,30 +99,161 @@ body{
 .draw-btn:hover {
     background-color: #57a7fd;
 }
+/* باکس اصلی کامنت‌ها */
+.comments-card {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 25px;
+    background: rgba(173, 216, 230, 0.85); /* آبی روشن و نیمه شفاف */
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    backdrop-filter: blur(5px);
+}
+
+/* عنوان */
+.comments-title {
+    text-align: center;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 34px;
+    color: #003366;
+    margin-bottom: 25px;
+}
+
+/* هر کامنت */
+.comment-item {
+    background: rgba(224, 238, 255, 0.9);
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.comment-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+/* متن پست */
+.comment-body {
+    font-size: 16px;
+    margin: 0 0 8px 0;
+}
+
+.comment-link {
+    text-decoration: none;
+    color: #003366;
+    font-weight: 500;
+}
+
+.comment-link:hover {
+    color: #0059b3;
+}
+
+/* نام کاربری */
+.comment-author {
+    font-size: 14px;
+    font-weight: bold;
+    color: #001f4d;
+    margin-bottom: 8px;
+}
+
+.author-link {
+    text-decoration: none;
+    color: #001f4d;
+}
+
+.author-link:hover {
+    color: #004080;
+    text-decoration: underline;
+}
+
+/* آیکون لایک */
+.like-btn {
+    font-size: 20px;
+    color: #ff4500;
+    cursor: pointer;
+}
+
+/* صفحه‌بندی */
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a.page-link, .pagination span.current-page {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 0 4px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #003366;
+    font-weight: 500;
+    background-color: rgba(255,255,255,0.6);
+    transition: 0.3s;
+}
+
+.pagination a.page-link:hover {
+    background-color: rgba(0,140,255,0.3);
+}
+
+.pagination span.current-page {
+    background-color: rgba(0,140,255,0.6);
+    color: white;
+    font-weight: bold;
+}
 </style>
 <body>
-  <div class="card">
-      <h1 style="text-align: center; background-color: #b9caf1; font-family: 'Aclonica';font-size: 34px;">Your comments</h1>
+  <div class="card comments-card" style="position: relative;left: -1%;">
+    <h1 class="comments-title">Your Comments</h1>
 
-     {% for post in posts %}
-           <a href="{{ post.get_absolute_url }}" class="card-body">{{ post.body|truncatewords:3}}</a>
-           <h3><a href="{%  url 'account:profile' post.user.id  %}"> {{ post.user.username }} </a></h3>
-          <h1> <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i></h1>
-     {% endfor %}
+    {% for post in page_obj %}
+        <div class="comment-item">
+            <p class="comment-body">
+                <a href="{{ post.get_absolute_url }}" class="comment-link">{{ post.body|truncatewords:10 }}</a>
+            </p>
+            <p class="comment-author">
+                <a href="{% url 'account:profile' post.user.id %}" class="author-link">{{ post.user.username }}</a>
+            </p>
+            <p class="like-btn">
+                <i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+            </p>
+        </div>
+    {% empty %}
+        <p style="text-align:center;">No comments yet.</p>
+    {% endfor %}
 
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; Previous</a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="current-page">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}" class="page-link">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">Next &raquo;</a>
+        {% endif %}
+    </div>
   </div>
   <div class="drawing-box">
-    <h2>Explore & Draw!</h2>
+    <h2 class="comments-title" style="color: #cf14df">Explore & Draw!</h2>
     <div class="sample-images">
         <img src="/static/image/draw/my_artwork%20(1).png " alt="Sample 1">
         <img src="/static/image/draw/my_artwork%20(2).png " alt="Sample 2">
         <img src="/static/image/draw/my_artwork%20(3).png " alt="Sample 3">
     </div>
     <a href="/pint/" class="draw-btn">Start Drawing</a>
-    <h3 style="position: relative;top: 10px">Draw a picture as a keepsake.</h3>
+    <h3 class="comments-title" style="color: #cf14df;font-size:large;position: relative;top: 10px">Draw a picture as a keepsake.</h3>
   </div>
 </body>
-</html>
+{% endblock %}
 <script>
     function myFunction(x) {
   x.classList.toggle("fa-thumbs-down");

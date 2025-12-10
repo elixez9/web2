@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+{% extends "base.html" %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
 <style>
 
     .fieldBox {
@@ -22,19 +20,48 @@
         cursor: pointer; /* Add a pointer cursor on mouse-over */
         background-color: #f44336;
 }
-  .btn-UP{
-         border: none; /* Remove borders */
-    color: white; /* Add a text color */
-    padding: 14px 28px; /* Add some padding */
-    cursor: pointer; /* Add a pointer cursor on mouse-over */
-    background-color: #1c89fd;
+.submit-btn {
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #6495ed;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
-  body{
-    background-image: url("static/image/home/w.jpg");
-    background-size: cover;
 
+.submit-btn2 {
+    margin-top: 15px;
+    padding: 12px 25px;
+    background-color: #e32b2b;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+.submit-btn:hover {
+    background-color: #4169e1;
+}
+.submit-btn2:hover {
+    background-color: #910606;
+}
+
+ body {
+     background-image: url("/static/image/home/w.jpg");
+     background-size: cover;
+     background-position: center;
+     background-attachment: fixed;
+     margin: 0;
+     font-family: Arial, sans-serif;
+     backdrop-filter: blur(4px);
+ }
 </style>
 <body>
      <div class="fieldBox">
@@ -42,9 +69,9 @@
        <P> {{ post.body }}</P>
         <p> {{ post.updated|date:"Y-M"  }}</p>
          {% if request.user.id == post.user.id %}
-         <a href="{% url 'home:post_delete' post.id  %}" class="btn-danger">Delete</a>
-         <a href="{% url 'home:post_update' post.id  %}" class="btn-UP">Update</a>
+         <a href="{% url 'home:post_delete' post.id  %}" class="submit-btn2">Delete</a>
+         <a href="{% url 'home:post_update' post.id  %}" class="submit-btn">Update</a>
          {% endif %}
     </div>
 </body>
-</html>
+{% endblock %}
