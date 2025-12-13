@@ -49,7 +49,15 @@
         border-radius: 8px;
         border: 1px solid #b3ddff;
         background-color: #f7fbff;
-    }
+}
+ .comments-title {
+    text-align: center;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 34px;
+    color: #1c89fd;
+    margin-bottom: 25px;
+}
+
 </style>
 
 <div class="confirm-container">
@@ -60,7 +68,7 @@
         <input type="submit" value="Change">
       </form>
     {% else %}
-     <p> this link not valid please try again </p>
+     <p class="comments-title" style="font-size: larger"> this link not valid please try again </p>
     {% endif %}
 </div>
 

@@ -75,7 +75,7 @@ class UserProfileView(LoginRequiredMixin, View):
 
 class UserResetPasswordView(auth_views.PasswordResetView):
     template_name = 'account/resetpassword.html'
-    success_url = reverse_lazy('account/password_reset_done')
+    success_url = reverse_lazy('account:password_reset_done')
     email_template_name = 'account/resetpasswordemail.html'
 
 
@@ -83,6 +83,10 @@ class UserResetPasswordDoneView(auth_views.PasswordResetDoneView):
     template_name = 'account/password_reset_done.html'
 
 
-class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+class UserPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     template_name = 'account/confirm.html'
     success_url = reverse_lazy('account:reset_complete')
+
+
+class UserPasswordResetCompleteView(auth_views.PasswordResetCompleteView):
+    template_name = 'account/complete.html'

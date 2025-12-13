@@ -96,20 +96,24 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+ .comments-title {
+    text-align: center;
+    font-family: 'Aclonica', sans-serif;
+    font-size: 34px;
+    color: #023163;
+    margin-bottom: 25px;
+}
+
 </style>
-
-
 <div class="profile-header">
-    <h3>{{ user.username }}</h3>
+    <h3 class="comments-title" style="font-size: larger">{{ user.username }}</h3>
 
     {% if request.user.id == user.id %}
         <a href="{% url 'home:post_create' %}" class="draw-btn">Create Post</a>
+        <a href="{% url 'account:reset_password' %}" class="draw-btn" style="background-color:rgb(25,134,244); display:inline-block; margin-top:10px;">Change Password</a>
     {% endif %}
-</div>
-
-
-<div class="post-container">
-    <h1 style="text-align:center; color:#0d3a5c;">MY POSTS</h1>
+</div><div class="post-container">
+    <h1 class="comments-title"  style="text-align:center; color:#0d3a5c;">MY POSTS</h1>
 
     {% for post in posts %}
         <a href="{{ post.get_absolute_url }}" class="post-item">{{ post.body|truncatewords:3 }}</a>
