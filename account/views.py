@@ -1,11 +1,13 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.views import View
 from .forms import UserRegistrationForm, UserLoginForm
 from django.contrib.auth.forms import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from home.models import Post
+from django.contrib.auth import views as auth_views
 
 
 class RegisterView(View):
@@ -57,7 +59,7 @@ class UserLoginView(View):
         return render(request, 'account/login.html', {'form': form})
 
 
-class UserLogoutView(LoginRequiredMixin, View):    #LoginRequiredMixin class Logout is only shown to logged in users
+class UserLogoutView(LoginRequiredMixin, View):  #LoginRequiredMixin class Logout is only shown to logged in users
     def get(self, request):
         logout(request)
         messages.success(request, 'You are now logged out')
@@ -69,3 +71,18 @@ class UserProfileView(LoginRequiredMixin, View):
         user = User.objects.get(id=user_id)
         posts = Post.objects.filter(user=user)
         return render(request, 'account/profile.html', {'user': user, 'posts': posts})
+
+
+class UserResetPasswordView(auth_views.PasswordResetView):
+    template_name = 'account/resetpassword.html'
+    success_url = reverse_lazy('account/password_reset_done')
+    email_template_name = 'account/resetpasswordemail.html'
+
+
+class UserResetPasswordDoneView(auth_views.PasswordResetDoneView):
+    template_name = 'account/password_reset_done.html'
+
+
+class PasswordResetConfirmView(auth_views.PasswordResetConfirmView):
+    template_name = 'account/confirm.html'
+    success_url = reverse_lazy('account:reset_complete')
